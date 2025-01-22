@@ -1,0 +1,85 @@
+.TH DECUSCPP 1 decuscpp\-c89
+.SH NAME
+decuscpp \- DECUS C preprocessor
+.SH SYNOPSIS
+decuscpp [-options] [infile [outfile]]
+.SH DESCRIPTION
+decuscpp reads a C source file, expands macros and include
+files, and writes an input file for the C compiler.
+If no file arguments are given, decuscpp reads from stdin
+and writes to stdout.  If one file argument is given,
+it will define the input file, while two file arguments
+define both input and output files.  The file name "-"
+is a synonym for stdin or stdout as appropriate.
+.SH OPTIONS
+.TP
+.B -C
+If set, source-file comments are written
+to the output file.  This allows the output of decuscpp to be
+used as the input to a program, such as lint, that expects
+commands embedded in specially-formatted comments.
+.TP
+.B -Dname=value
+Define the name as if the programmer wrote
+.br
+	#define name value
+.TP
+.B -E
+Always return "success" to the operating
+system, even if errors were detected.  Note that some fatal
+errors, such as a missing #include file, will terminate
+decuscpp, returning "failure" even if the -E option is given.
+.TP
+.B -Idirectory
+Add directory to the list of
+directories searched for #include "..." and #include <...>
+commands.  Note that there is no space between the
+"-I" and the directory string.  More than one -I command
+is permitted.
+.TP
+.B -N
+decuscpp normally predefines some symbols defining
+the target computer and operating system.  If -N is specified,
+no symbols will be predefined.  If -N -N is specified, the
+"always present" symbols, __LINE__, __FILE__, and __DATE__
+are not defined.
+.TP
+.B -Stext
+decuscpp normally assumes that the size of
+the target computer's basic variable types is the same as the size
+of these types of the host computer.  (This can be overridden
+when decuscpp is compiled, however.)  The -S option allows dynamic
+respecification of these values.  "text" is a string of
+numbers, separated by commas, that specifies correct sizes.
+The sizes must be specified in the exact order:
+    char short int long float double
+
+If you specify the option as "-S*text", pointers to these
+types will be specified.  -S* takes one additional argument
+for pointer to function (e.g. int (*)())
+
+For example, to specify sizes appropriate for a PDP-11,
+you would write:
+       c s i l f d func
+     -S1,2,2,2,4,8,
+    -S*2,2,2,2,2,2,2
+.TP
+.B -Uname
+Undefine the name as if
+.br
+	#undef name
+.TP
+.B -Xnumber
+Enable debugging code.  If no value is
+given, a value of 1 will be used.  (For maintenence of
+decuscpp only.)
+.SH EXAMPLES
+ \./decuscpp source\.c -I/usr/lib/example/include
+.SH ISSUES
+Some features listed in documentation and/or comments may be unimplemented or broken.
+decuscpp does not fully implement the ANSI C preprocessor standard (see section 3.8)
+.SH AUTHOR
+Written by Martin Minow, ported to ANSI C by PROP65
+.SH COPYRIGHT
+Public Domain
+
