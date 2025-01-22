@@ -163,7 +163,7 @@ int dooptions(int argc, char** argv){
 				if(defendel(ap, TRUE) == NULL)
 					cwarn("\"%s\" wasn't defined", ap);
 				break;
-	#if DEBUG
+#if DEBUG
 			case 'X': /* Debug */
 				debug = (isdigit(*ap))
 					? atoi(ap)
@@ -171,7 +171,7 @@ int dooptions(int argc, char** argv){
 
 				fprintf(stderr, "Debug set to %d\n", debug);
 				break;
-	#endif
+#endif
 			default: /* What is this one? */
 				cwarn("Unknown option \"%s\"", arg);
 				fprintf(stderr,
@@ -183,9 +183,9 @@ int dooptions(int argc, char** argv){
 					"    -Stext         Specify sizes for #if sizeof\n"
 					"    -Usymbol       Undefine symbol\n"
 				);
-	#if DEBUG
+#if DEBUG
 			fprintf(stderr, "    -Xvalue        Set internal debug flag\n");
-	#endif
+#endif
 				break;
 		}
 	}
